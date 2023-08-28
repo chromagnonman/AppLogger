@@ -11,4 +11,4 @@ In Linux, open the terminal and navigate to the project folder, then run the com
 In Windows, use Powershell or the terminal to generate the build files using CMake command: `mkdir build && cd build && cmake ..`. Open the `.vcxproj` or `.sln` file in the latest Visual Studio IDE (2022) to build and run the application.
 
 ## Caveat
-When building the project in Windows, you might need to modify the project properties and set the `C++ Language Standard` to `C++ 17`.
+When building the project in Windows, you may need to modify the project properties and set the `C++ Language Standard` to `C++ 17`.
