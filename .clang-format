@@ -1,0 +1,9 @@
+---
+Language: Cpp
+BasedOnStyle: WebKit
+AlignAfterOpenBracket: AlwaysBreak
+AllowShortFunctionsOnASingleLine: None
+AlwaysBreakTemplateDeclarations: Yes
+BreakBeforeBraces: Allman
+ColumnLimit: 100
+IncludeBlocks: Regroup
