@@ -12,6 +12,7 @@ namespace Rightware {
             virtual ~Console() = default;
 
             void write(std::string&& msg) override;
+
         };
     }
 }

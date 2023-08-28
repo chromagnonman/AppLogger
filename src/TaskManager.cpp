@@ -28,7 +28,7 @@ namespace Rightware {
                     }
                 }
 
-                m_task_cv.notify_all();
+                m_task_cv.notify_one();
             }
 
             void flush()

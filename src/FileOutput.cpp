@@ -9,6 +9,8 @@ namespace Rightware {
 
         File::File(std::string file)
         {
+            std::lock_guard<std::mutex> lk{m_mutex};
+
             m_file.exceptions(std::ifstream::badbit);
 
             try {
@@ -20,11 +22,15 @@ namespace Rightware {
 
         File::~File()
         {
+            std::lock_guard<std::mutex> lk{m_mutex};
+
             m_file.close();
         }
 
         void File::write(std::string&& msg)
         {
+            std::lock_guard<std::mutex> lk{m_mutex};
+
             if (m_file.is_open())
             {
                 m_file << std::move(msg);
@@ -33,6 +39,8 @@ namespace Rightware {
 
         void File::remove(const std::string& file)
         {
+            std::lock_guard<std::mutex> lk{m_mutex};
+
             if (std::remove(file.c_str()) != 0)
             {
                 std::cout << "Failed to remove: " << file;

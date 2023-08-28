@@ -126,8 +126,7 @@ namespace Rightware {
 
             void log_message(std::string&& msg)
             {
-                std::thread task{[&]{m_output_device->write(std::move(msg));}};
-                TaskManager::getInstance()->execute(std::move(task));
+                TaskManager::getInstance()->execute(std::thread([&]{m_output_device->write(std::move(msg));}));
             }
 
             private:
