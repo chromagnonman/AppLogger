@@ -9,8 +9,6 @@ namespace Rightware {
 
     namespace core {
 
-        std::unique_ptr<TaskManager> instance = nullptr;
-
         struct TaskManager::impl {
 
             void execute(std::thread&& task)
