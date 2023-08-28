@@ -24,7 +24,7 @@ namespace Rightware {
 
             public:
             /**
-             * @brief Construct a new Logger object. This object writes the log messages to the console
+             * @brief Construct a new Logger object, which writes the log messages to the console
              * 
              * @param appID Unique name or ID of the application
              */
@@ -34,7 +34,7 @@ namespace Rightware {
             }
 
             /**
-             * @brief Construct a new Logger object that writes log messages to a file.
+             * @brief Construct a new Logger object, which writes log messages to a file.
              * 
              * @param appID Unique name or ID of the application
              * @param file name where the logs will be written
