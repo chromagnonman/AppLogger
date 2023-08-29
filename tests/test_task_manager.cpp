@@ -10,9 +10,9 @@ TEST (TaskManager, ThreadInvocations)
     ASSERT_NE(task_handler, nullptr);
 
     testing::internal::CaptureStdout();
+
     // Invoke a single thread
-    std::thread t{[]{std::cout << "This is a thread!";}};
-    task_handler->execute(std::move(t));
+    task_handler->execute(std::thread([]{std::cout << "This is a thread!";}));
 
     std::string console = testing::internal::GetCapturedStdout();
     EXPECT_EQ("This is a thread!", console);
@@ -25,8 +25,7 @@ TEST (TaskManager, ThreadInvocations)
         std::string output{"thread id: "};
         output += std::to_string(i);
         
-        std::thread task{[=]{ std::cout << "thread id: " << i;}};
-        task_handler->execute(std::move(task));
+        task_handler->execute(std::thread([=]{ std::cout << "thread id: " << i;}));
 
         std::string actual = testing::internal::GetCapturedStdout();
         EXPECT_EQ(actual, output);
