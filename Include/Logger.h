@@ -4,6 +4,7 @@
 #include <memory>
 #include <sstream>
 #include <algorithm>
+#include <execution>
 
 #include "TaskManager.h"
 #include "SeverityLevel.h"
@@ -58,7 +59,7 @@ namespace Rightware {
                 std::ostringstream log_msg;
 
                 std::string timestamp = utils::TimeStamp::now();
-                std::replace(timestamp.begin(), timestamp.end(), '\n', ' ');
+                std::replace(std::execution::par, timestamp.begin(), timestamp.end(), '\n', ' ');
 
                 log_msg << timestamp << m_appID << utils::log_type_literal(log_level) << msg << std::endl;
                 log_message(log_msg.str());
@@ -70,7 +71,7 @@ namespace Rightware {
                 std::ostringstream log_msg;
 
                 std::string timestamp = utils::TimeStamp::now();
-                std::replace(timestamp.begin(), timestamp.end(), '\n', ' ');
+                std::replace(std::execution::par, timestamp.begin(), timestamp.end(), '\n', ' ');
 
                 log_msg << timestamp << m_appID << utils::log_type_literal(log_level) << msg << user << std::endl;
                 log_message(log_msg.str());
@@ -82,7 +83,7 @@ namespace Rightware {
                 std::ostringstream log_msg;
      
                 std::string timestamp = utils::TimeStamp::now();
-                std::replace(timestamp.begin(), timestamp.end(), '\n', ' ');
+                std::replace(std::execution::par, timestamp.begin(), timestamp.end(), '\n', ' ');
 
                 log_msg << timestamp << m_appID << utils::log_type::INFO << msg << std::endl;
                 log_message(log_msg.str());
@@ -94,7 +95,7 @@ namespace Rightware {
                 std::ostringstream log_msg;
 
                 std::string timestamp = utils::TimeStamp::now();
-                std::replace(timestamp.begin(), timestamp.end(), '\n', ' ');
+                std::replace(std::execution::par, timestamp.begin(), timestamp.end(), '\n', ' ');
 
                 log_msg << timestamp << m_appID << utils::log_type::ERROR << msg << std::endl;
                 log_message(log_msg.str());
@@ -106,7 +107,7 @@ namespace Rightware {
                 std::ostringstream log_msg;
 
                 std::string timestamp = utils::TimeStamp::now();
-                std::replace(timestamp.begin(), timestamp.end(), '\n', ' ');
+                std::replace(std::execution::par, timestamp.begin(), timestamp.end(), '\n', ' ');
 
                 log_msg << timestamp << m_appID << utils::log_type::WARNING << msg << std::endl;
                 log_message(log_msg.str());
@@ -118,7 +119,7 @@ namespace Rightware {
                 std::ostringstream log_msg;
 
                 std::string timestamp = utils::TimeStamp::now();
-                std::replace(timestamp.begin(), timestamp.end(), '\n', ' ');
+                std::replace(std::execution::par, timestamp.begin(), timestamp.end(), '\n', ' ');
                 
                 log_msg << timestamp << m_appID << utils::log_type::FATAL << msg << std::endl;
                 log_message(log_msg.str());
