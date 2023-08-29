@@ -154,11 +154,14 @@ TEST (Logger, FileLogOutput)
     std::ifstream file("logfile.txt");
     ASSERT_TRUE(file.is_open());
 
-    std::ostringstream stream;
-    stream << file.rdbuf();
-
     std::string log;
-    log = stream.str();
+    {
+        std::ostringstream stream;
+        stream << file.rdbuf();
+
+        log = std::move(stream.str());
+    }
+    
     ASSERT_FALSE(log.empty());
 
     EXPECT_NE(std::string::npos, log.find("Logfile created."));
@@ -170,7 +173,7 @@ TEST (Logger, FileLogOutput)
 
 TEST (Logger, MultipleFileLoggers)
 {
-    { // Need to destroy log_file object so that the file can be read
+    { // Need to destroy log_file object so that the files can be read
         Logger log_file("Unity", "logfile.txt");
         Logger log_file2("Unreal", "logfile2.txt");
 
@@ -190,11 +193,14 @@ TEST (Logger, MultipleFileLoggers)
     std::ifstream file("logfile.txt");
     ASSERT_TRUE(file.is_open());
 
-    std::ostringstream stream;
-    stream << file.rdbuf();
-
     std::string log;
-    log = stream.str();
+    {
+        std::ostringstream stream;
+        stream << file.rdbuf();
+
+        log = std::move(stream.str());
+    }
+
     ASSERT_FALSE(log.empty());
 
     EXPECT_NE(std::string::npos, log.find("Logfile created."));
