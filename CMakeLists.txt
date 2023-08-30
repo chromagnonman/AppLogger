@@ -41,7 +41,6 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Include)
 
 add_executable(AppLogger src/FileOutput.cpp src/ConsoleOutput.cpp src/TaskManager.cpp src/main.cpp)
-# target_compile_options(AppLogger PRIVATE cxx_std_17)
 
 project(LoggerTest)
 
@@ -49,5 +48,4 @@ project(LoggerTest)
 set(TEST_FILES src/FileOutput.cpp src/ConsoleOutput.cpp src/TaskManager.cpp tests/test_task_manager.cpp tests/test_logger.cpp)
 
 add_executable(Unit_Tests ${TEST_FILES})
-# target_compile_options(Unit_Tests PRIVATE cxx_std_17)
 target_link_libraries(Unit_Tests gtest_main)
