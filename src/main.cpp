@@ -1,6 +1,4 @@
 #include "Logger.h"
-#include "ConsoleOutput.h"
-#include "FileOutput.h"
 
 using namespace Rightware;
 
