@@ -61,7 +61,7 @@ namespace Rightware {
                 std::string timestamp = utils::TimeStamp::now();
                 std::replace(std::execution::par, timestamp.begin(), timestamp.end(), '\n', ' ');
 
-                log_msg << timestamp << m_appID << utils::log_type_literal(log_level) << msg << std::endl;
+                log_msg << timestamp << m_appID << utils::log_type_literal(log_level) << std::forward<T>(msg) << std::endl;
                 log_message(log_msg.str());
             }
 
@@ -73,7 +73,7 @@ namespace Rightware {
                 std::string timestamp = utils::TimeStamp::now();
                 std::replace(std::execution::par, timestamp.begin(), timestamp.end(), '\n', ' ');
 
-                log_msg << timestamp << m_appID << utils::log_type_literal(log_level) << msg << user << std::endl;
+                log_msg << timestamp << m_appID << utils::log_type_literal(log_level) << std::forward<T>(msg) << user << std::endl;
                 log_message(log_msg.str());
             }
 
@@ -85,7 +85,7 @@ namespace Rightware {
                 std::string timestamp = utils::TimeStamp::now();
                 std::replace(std::execution::par, timestamp.begin(), timestamp.end(), '\n', ' ');
 
-                log_msg << timestamp << m_appID << utils::log_type::INFO << msg << std::endl;
+                log_msg << timestamp << m_appID << utils::log_type::INFO << std::forward<T>(msg) << std::endl;
                 log_message(log_msg.str());
             }
 
@@ -97,7 +97,7 @@ namespace Rightware {
                 std::string timestamp = utils::TimeStamp::now();
                 std::replace(std::execution::par, timestamp.begin(), timestamp.end(), '\n', ' ');
 
-                log_msg << timestamp << m_appID << utils::log_type::ERROR << msg << std::endl;
+                log_msg << timestamp << m_appID << utils::log_type::ERROR << std::forward<T>(msg) << std::endl;
                 log_message(log_msg.str());
             }
 
@@ -109,7 +109,7 @@ namespace Rightware {
                 std::string timestamp = utils::TimeStamp::now();
                 std::replace(std::execution::par, timestamp.begin(), timestamp.end(), '\n', ' ');
 
-                log_msg << timestamp << m_appID << utils::log_type::WARNING << msg << std::endl;
+                log_msg << timestamp << m_appID << utils::log_type::WARNING << std::forward<T>(msg) << std::endl;
                 log_message(log_msg.str());
             }
 
@@ -121,7 +121,7 @@ namespace Rightware {
                 std::string timestamp = utils::TimeStamp::now();
                 std::replace(std::execution::par, timestamp.begin(), timestamp.end(), '\n', ' ');
                 
-                log_msg << timestamp << m_appID << utils::log_type::FATAL << msg << std::endl;
+                log_msg << timestamp << m_appID << utils::log_type::FATAL << std::forward<T>(msg) << std::endl;
                 log_message(log_msg.str());
             }
 
