@@ -1,79 +1,84 @@
-#include <vector>
-#include <mutex>
-#include <condition_variable>
-#include <iostream>
-#include <atomic>
-
 #include "TaskManager.h"
 
-namespace Rightware {
+#include <atomic>
+#include <condition_variable>
+#include <iostream>
+#include <mutex>
+#include <vector>
 
-    namespace core {
+namespace Rightware
+{
 
-        struct TaskManager::impl {
+namespace core
+{
 
-            void execute(std::thread&& task)
+    struct TaskManager::impl
+    {
+
+        void execute(std::thread&& task)
+        {
             {
-                {
-                    std::unique_lock<std::mutex> lk{m_task_mtx};
-                    m_task_cv.wait(lk, [&] {return m_thread_count < std::thread::hardware_concurrency();});
-                    
-                    m_tasks.emplace_back(std::move(task));
-                    ++m_thread_count;
-                    
-                    auto& t = m_tasks.back();
-                    if (t.joinable())
-                    {
-                        t.join();
-                        --m_thread_count;
-                    }
-                }
+                std::unique_lock<std::mutex> lk { m_task_mtx };
+                m_task_cv.wait(
+                    lk, [&] { return m_thread_count < std::thread::hardware_concurrency(); });
 
-                m_task_cv.notify_one();
-            }
+                m_tasks.emplace_back(std::move(task));
+                ++m_thread_count;
 
-            void flush()
-            {
-                std::lock_guard<std::mutex> lk{m_task_mtx};
-                for (auto& task : m_tasks)
+                auto& t = m_tasks.back();
+                if (t.joinable())
                 {
-                    if (task.joinable())
-                    {
-                        task.join();
-                    }
+                    t.join();
+                    --m_thread_count;
                 }
             }
 
-            size_t thread_count() const
+            m_task_cv.notify_one();
+        }
+
+        void flush()
+        {
+            std::lock_guard<std::mutex> lk { m_task_mtx };
+            for (auto& task : m_tasks)
             {
-                std::lock_guard<std::mutex> lk{m_task_mtx};
-                return m_thread_count;
+                if (task.joinable())
+                {
+                    task.join();
+                }
             }
-
-            private:
-            std::vector<std::thread> m_tasks;
-            mutable std::mutex m_task_mtx;
-            std::condition_variable m_task_cv;
-            std::atomic<uint32_t> m_thread_count{0};
-        };
-
-        TaskManager::TaskManager() : m_Impl{std::make_unique<impl>()}
-        {
         }
 
-        TaskManager::~TaskManager()
+        size_t thread_count() const
         {
-            m_Impl->flush();
+            std::lock_guard<std::mutex> lk { m_task_mtx };
+            return m_thread_count;
         }
 
-        void TaskManager::flush()
-        {
-            m_Impl->flush();
-        }
+    private:
+        std::vector<std::thread> m_tasks;
+        mutable std::mutex m_task_mtx;
+        std::condition_variable m_task_cv;
+        std::atomic<uint32_t> m_thread_count { 0 };
+    };
 
-        void TaskManager::execute(std::thread&& task)
-        {
-            m_Impl->execute(std::move(task));
-        }
+    TaskManager::TaskManager()
+        : m_Impl { std::make_unique<impl>() }
+    {
     }
+
+    TaskManager::~TaskManager()
+    {
+        m_Impl->flush();
+    }
+
+    void TaskManager::flush()
+    {
+        m_Impl->flush();
+    }
+
+    void TaskManager::execute(std::thread&& task)
+    {
+        m_Impl->execute(std::move(task));
+    }
+}
 }

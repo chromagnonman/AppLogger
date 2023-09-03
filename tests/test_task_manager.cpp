@@ -1,10 +1,10 @@
-#include <gtest/gtest.h>
-
 #include "TaskManager.h"
+
+#include <gtest/gtest.h>
 
 using namespace Rightware::core;
 
-TEST (TaskManager, ThreadInvocations)
+TEST(TaskManager, ThreadInvocations)
 {
     const auto task_handler = TaskManager::getInstance();
     ASSERT_NE(task_handler, nullptr);
@@ -12,7 +12,7 @@ TEST (TaskManager, ThreadInvocations)
     testing::internal::CaptureStdout();
 
     // Invoke a single thread
-    task_handler->execute(std::thread([]{std::cout << "This is a thread!";}));
+    task_handler->execute(std::thread([] { std::cout << "This is a thread!"; }));
 
     std::string console = testing::internal::GetCapturedStdout();
     EXPECT_EQ("This is a thread!", console);
@@ -22,10 +22,10 @@ TEST (TaskManager, ThreadInvocations)
     {
         testing::internal::CaptureStdout();
 
-        std::string output{"thread id: "};
+        std::string output { "thread id: " };
         output += std::to_string(i);
-        
-        task_handler->execute(std::thread([=]{ std::cout << "thread id: " << i;}));
+
+        task_handler->execute(std::thread([=] { std::cout << "thread id: " << i; }));
 
         std::string actual = testing::internal::GetCapturedStdout();
         EXPECT_EQ(actual, output);

@@ -1,15 +1,17 @@
-#include <iostream>
-
 #include "ConsoleOutput.h"
 
-namespace Rightware {
+#include <iostream>
 
-    namespace OutputDevice {
+namespace Rightware
+{
 
-        void Console::write(std::string&& msg)
-        {
-            std::lock_guard<std::mutex> lk{m_mutex};
-            std::cout << std::move(msg);
-        }
+namespace OutputDevice
+{
+
+    void Console::write(std::string&& msg)
+    {
+        std::lock_guard<std::mutex> lk { m_mutex };
+        std::cout << std::move(msg);
     }
+}
 }

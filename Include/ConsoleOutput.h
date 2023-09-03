@@ -2,17 +2,19 @@
 
 #include "OutputDevice.h"
 
-namespace Rightware {
+namespace Rightware
+{
 
-    namespace OutputDevice {
+namespace OutputDevice
+{
 
-        class Console : public AOuputDevice {
-            public:
-            Console() = default;
-            virtual ~Console() = default;
+    class Console : public AOuputDevice
+    {
+    public:
+        Console() = default;
+        virtual ~Console() = default;
 
-            void write(std::string&& msg) override;
-
-        };
-    }
+        void write(std::string&& msg) override;
+    };
+}
 }

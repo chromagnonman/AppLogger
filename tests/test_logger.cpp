@@ -1,5 +1,6 @@
-#include <gtest/gtest.h>
 #include "Logger.h"
+
+#include <gtest/gtest.h>
 
 using namespace Rightware;
 using namespace Rightware::core;
@@ -16,7 +17,7 @@ TEST(Logger, ConsoleLogInfo)
 
     testing::internal::CaptureStdout();
 
-    std::string msg{"Application terminated: "};
+    std::string msg { "Application terminated: " };
     logger.log_info(msg);
 
     output = testing::internal::GetCapturedStdout();
@@ -31,7 +32,7 @@ TEST(Logger, ConsoleLogInfo)
 
     testing::internal::CaptureStdout();
 
-    std::string user{"Administrator"};
+    std::string user { "Administrator" };
     logger.log_message(utils::log_level::INFO, msg, user);
 
     output = testing::internal::GetCapturedStdout();
@@ -50,7 +51,7 @@ TEST(Logger, ConsoleLogError)
 
     testing::internal::CaptureStdout();
 
-    std::string msg{"Application terminated: "};
+    std::string msg { "Application terminated: " };
     logger.log_error(msg);
 
     output = testing::internal::GetCapturedStdout();
@@ -65,7 +66,7 @@ TEST(Logger, ConsoleLogError)
 
     testing::internal::CaptureStdout();
 
-    std::string user{"Administrator"};
+    std::string user { "Administrator" };
     logger.log_message(utils::log_level::ERROR, msg, user);
 
     output = testing::internal::GetCapturedStdout();
@@ -84,7 +85,7 @@ TEST(Logger, ConsoleLogWarning)
 
     testing::internal::CaptureStdout();
 
-    std::string msg{"Application terminated: "};
+    std::string msg { "Application terminated: " };
     logger.log_warning(msg);
 
     output = testing::internal::GetCapturedStdout();
@@ -99,7 +100,7 @@ TEST(Logger, ConsoleLogWarning)
 
     testing::internal::CaptureStdout();
 
-    std::string user{"Administrator"};
+    std::string user { "Administrator" };
     logger.log_message(utils::log_level::WARNING, msg, user);
 
     output = testing::internal::GetCapturedStdout();
@@ -118,7 +119,7 @@ TEST(Logger, ConsoleLogFatal)
 
     testing::internal::CaptureStdout();
 
-    std::string msg{"Application terminated: "};
+    std::string msg { "Application terminated: " };
     logger.log_fatal(msg);
 
     output = testing::internal::GetCapturedStdout();
@@ -133,14 +134,14 @@ TEST(Logger, ConsoleLogFatal)
 
     testing::internal::CaptureStdout();
 
-    std::string user{"Administrator"};
+    std::string user { "Administrator" };
     logger.log_message(utils::log_level::FATAL, msg, user);
 
     output = testing::internal::GetCapturedStdout();
     ASSERT_NE(std::string::npos, output.find("Administrator"));
 }
 
-TEST (Logger, FileLogOutput)
+TEST(Logger, FileLogOutput)
 {
     { // Need to destroy log_file object so that the file can be read
         Logger log_file("Unreal Engine", "logfile.txt");
@@ -161,7 +162,7 @@ TEST (Logger, FileLogOutput)
 
         log = std::move(stream.str());
     }
-    
+
     ASSERT_FALSE(log.empty());
 
     EXPECT_NE(std::string::npos, log.find("Logfile created."));
@@ -170,8 +171,7 @@ TEST (Logger, FileLogOutput)
     EXPECT_NE(std::string::npos, log.find("Fatal log"));
 }
 
-
-TEST (Logger, MultipleFileLoggers)
+TEST(Logger, MultipleFileLoggers)
 {
     { // Need to destroy log_file object so that the files can be read
         Logger log_file("Unity", "logfile.txt");
@@ -208,4 +208,3 @@ TEST (Logger, MultipleFileLoggers)
     EXPECT_NE(std::string::npos, log.find("Warning log"));
     EXPECT_NE(std::string::npos, log.find("Fatal log"));
 }
-

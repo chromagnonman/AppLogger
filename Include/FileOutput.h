@@ -1,24 +1,27 @@
 #pragma once
 
-#include <string>
-#include <fstream>
-
 #include "OutputDevice.h"
 
-namespace Rightware {
+#include <fstream>
+#include <string>
 
-    namespace OutputDevice {
+namespace Rightware
+{
 
-        class File : public AOuputDevice {
-            public:
-            explicit File(std::string file);
-            virtual ~File();
+namespace OutputDevice
+{
 
-            void write(std::string&& msg) override;
-            void remove(const std::string& file);
+    class File : public AOuputDevice
+    {
+    public:
+        explicit File(std::string file);
+        virtual ~File();
 
-            private:
-            std::fstream m_file;
-        };
-    }
+        void write(std::string&& msg) override;
+        void remove(const std::string& file);
+
+    private:
+        std::fstream m_file;
+    };
+}
 }

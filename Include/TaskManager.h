@@ -1,58 +1,62 @@
 #pragma once
 
 #include <memory>
-#include <thread>
 #include <mutex>
+#include <thread>
 
-namespace Rightware {
+namespace Rightware
+{
 
-    namespace core {
+namespace core
+{
 
-        static std::mutex task_manager_mutex;
-        
-        /**
-         * @brief Manages invocable thread objects. Only one instance of this class is allowed.
-         * TODO: Add other useful functions such as reporting number of threads running, etc. 
-         * 
-         */
-        class TaskManager {
-            public:
-            virtual ~TaskManager();
+    static std::mutex task_manager_mutex;
 
-            TaskManager(const TaskManager&) = delete;
-            TaskManager& operator=(const TaskManager&) = delete;
+    /**
+     * @brief Manages invocable thread objects. Only one instance of this class is allowed.
+     * TODO: Add other useful functions such as reporting number of threads running, etc.
+     *
+     */
+    class TaskManager
+    {
+    public:
+        virtual ~TaskManager();
 
-            static TaskManager* getInstance()
+        TaskManager(const TaskManager&) = delete;
+        TaskManager& operator=(const TaskManager&) = delete;
+
+        static TaskManager* getInstance()
+        {
+            static std::unique_ptr<TaskManager> instance = nullptr;
+
+            std::lock_guard<std::mutex> lk { task_manager_mutex };
+
+            if (!instance)
             {
-                static std::unique_ptr<TaskManager> instance = nullptr;
-
-                std::lock_guard<std::mutex> lk{task_manager_mutex};
-                
-                if (!instance) {
-                    instance = std::unique_ptr<TaskManager>(new TaskManager());
-                }
-
-                return instance.get();
+                instance = std::unique_ptr<TaskManager>(new TaskManager());
             }
 
-            /**
-             * @brief Invokes the thread object
-             * 
-             * @param task invocable thread object
-             */
-            void execute(std::thread&& task);
+            return instance.get();
+        }
 
-            /**
-             * @brief Terminates (joins) the remaining threads
-             * 
-             */
-            void flush();
+        /**
+         * @brief Invokes the thread object
+         *
+         * @param task invocable thread object
+         */
+        void execute(std::thread&& task);
 
-            private:
-            TaskManager();
-            
-            struct impl;
-            std::unique_ptr<impl> m_Impl;
-        };
-    }
+        /**
+         * @brief Terminates (joins) the remaining threads
+         *
+         */
+        void flush();
+
+    private:
+        TaskManager();
+
+        struct impl;
+        std::unique_ptr<impl> m_Impl;
+    };
+}
 }
