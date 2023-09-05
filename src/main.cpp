@@ -8,6 +8,16 @@ int main()
     core::Logger file("Kani", "logfile.txt");
     core::Logger console2("Unreal");
 
+    std::thread([&console]{
+        for (size_t i = 0; i < std::thread::hardware_concurrency(); i++)
+        {
+            std::string msg { "separate thread id:" };
+            msg += std::to_string(i);
+
+            console.log_info(msg);
+        }
+    }).detach();
+
     for (uint32_t i = 0; i < std::thread::hardware_concurrency(); i++)
     {
         std::string msg { "thread id:" };
