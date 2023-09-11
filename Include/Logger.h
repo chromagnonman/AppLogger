@@ -64,11 +64,7 @@ namespace core
         {
             std::ostringstream log_msg;
 
-            std::string timestamp = utils::TimeStamp::now();
-            std::replace(std::execution::par, timestamp.begin(), timestamp.end(), '\n', ' ');
-
-            log_msg << timestamp << m_appID << utils::log_type_literal(log_level)
-                    << std::forward<T>(msg) << std::endl;
+            log_msg << m_appID << utils::log_type_literal(log_level) << std::forward<T>(msg);
             log_message(log_msg.str());
         }
 
@@ -77,11 +73,7 @@ namespace core
         {
             std::ostringstream log_msg;
 
-            std::string timestamp = utils::TimeStamp::now();
-            std::replace(std::execution::par, timestamp.begin(), timestamp.end(), '\n', ' ');
-
-            log_msg << timestamp << m_appID << utils::log_type_literal(log_level)
-                    << std::forward<T>(msg) << user << std::endl;
+            log_msg << m_appID << utils::log_type_literal(log_level) << std::forward<T>(msg) << std::forward<T>(user);
             log_message(log_msg.str());
         }
 
@@ -90,11 +82,7 @@ namespace core
         {
             std::ostringstream log_msg;
 
-            std::string timestamp = utils::TimeStamp::now();
-            std::replace(std::execution::par, timestamp.begin(), timestamp.end(), '\n', ' ');
-
-            log_msg << timestamp << m_appID << utils::log_type::INFO << std::forward<T>(msg)
-                    << std::endl;
+            log_msg << m_appID << utils::log_type::INFO << std::forward<T>(msg);
             log_message(log_msg.str());
         }
 
@@ -103,11 +91,7 @@ namespace core
         {
             std::ostringstream log_msg;
 
-            std::string timestamp = utils::TimeStamp::now();
-            std::replace(std::execution::par, timestamp.begin(), timestamp.end(), '\n', ' ');
-
-            log_msg << timestamp << m_appID << utils::log_type::ERROR << std::forward<T>(msg)
-                    << std::endl;
+            log_msg << m_appID << utils::log_type::ERROR << std::forward<T>(msg);
             log_message(log_msg.str());
         }
 
@@ -116,11 +100,7 @@ namespace core
         {
             std::ostringstream log_msg;
 
-            std::string timestamp = utils::TimeStamp::now();
-            std::replace(std::execution::par, timestamp.begin(), timestamp.end(), '\n', ' ');
-
-            log_msg << timestamp << m_appID << utils::log_type::WARNING << std::forward<T>(msg)
-                    << std::endl;
+            log_msg << m_appID << utils::log_type::WARNING << std::forward<T>(msg);
             log_message(log_msg.str());
         }
 
@@ -129,18 +109,21 @@ namespace core
         {
             std::ostringstream log_msg;
 
-            std::string timestamp = utils::TimeStamp::now();
-            std::replace(std::execution::par, timestamp.begin(), timestamp.end(), '\n', ' ');
-
-            log_msg << timestamp << m_appID << utils::log_type::FATAL << std::forward<T>(msg)
-                    << std::endl;
+            log_msg << m_appID << utils::log_type::FATAL << std::forward<T>(msg);
             log_message(log_msg.str());
         }
 
         void log_message(std::string&& msg)
         {
+            std::ostringstream log_msg;
+
+            std::string timestamp = utils::TimeStamp::now();
+            std::replace(std::execution::par, timestamp.begin(), timestamp.end(), '\n', ' ');
+
+            log_msg << timestamp << std::move(msg) << '\n';
+
             TaskManager::getInstance()->execute(
-                std::thread([&] { m_output_device->write(std::move(msg)); }));
+                std::thread([&] { m_output_device->write(std::move(log_msg.str())); }));
         }
 
     private:
